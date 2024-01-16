@@ -80,8 +80,8 @@ function createForecastTable(string $dbname):bool {
  */
 function checkToCreateDatabase(string $exception):bool {
     global $dbname;
-
     $createdSomething = false;
+
     if (str_contains($exception, "Unknown database 'yourweather'")) {//Check to see if error states there is no database
         $result = createDatabase();
 
@@ -107,19 +107,20 @@ function checkForDatabase() {
     global $password;
 
     try {
+        //Check if connection can be established
         $connection = attemptConnection();
         $connection-> close();
 
-        $pdo = new PDO("$host=$servername;dbname=$dbname", $user, $password);
-        echo "$host=$servername;$dbname";
+        $pdo = new PDO("$host=$servername;dbname=$dbname", $user, $password);//Link the database
 
-        $query = $pdo->prepare("DESCRIBE forecast");
+        $query = $pdo->prepare("DESCRIBE forecast");//Check if table exists
         if (!$query->execute()) {
             echo "Creating table";
         }
     } catch (PDOException $exception) {
-        echo $exception;
-        $createdSomething = checkToCreateDatabase($exception);
+        echo $exception;//Echo exception if present and not handled.
+
+        $createdSomething = checkToCreateDatabase($exception);//Attempt to handle the exception
 
         if ($createdSomething) header("Refresh: 0");//Loop by refreshing if a database/table has been created to make sure everything will be/has been created.
     }
