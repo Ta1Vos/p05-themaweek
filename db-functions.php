@@ -19,7 +19,7 @@ function insertIntoForecast(string $city, string $time, float $temperature, int 
     try {
         global $pdo;
 
-        $lastRefresh = date("");
+        $lastRefresh = date("Y-m-d H:i:s");//Get the current date
 
         $query = $pdo->prepare("INSERT INTO forecast SET city=:city, time=:time, temperature=:temperature, precipitation_probability=:precipitation_probability, last_refresh=:last_refresh");
         $query->bindParam("city", $city);
