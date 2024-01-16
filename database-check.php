@@ -29,16 +29,67 @@ function attemptConnection(string $dbname = null):mysqli
 }
 
 /**
+ * Create a database
+ * @return bool Returns false if fails, returns true if creation successful.
+ */
+function createDatabase():bool {
+    $conn = attemptConnection();
+
+    $sql = "CREATE DATABASE yourweather";
+
+    if ($conn->query($sql)) {
+        $conn->close();
+        return true;
+    }
+
+    $conn->close();
+
+    return false;
+}
+
+/**
+ * Create a table
+ * @param string $dbname Required | The name of the database you're creating a table on.
+ * @return bool Returns false if fails, returns true if creation successful.
+ */
+function createForecastTable(string $dbname):bool {
+    $conn = attemptConnection($dbname);
+
+    $sql = "CREATE TABLE forecast (
+        id INT(11) AUTO_INCREMENT PRIMARY KEY,
+        city VARCHAR(255) NOT NULL,
+        last_refresh DATETIME NOT NULL,
+        temperature FLOAT(4,1) NOT NULL,
+        precipitation_probability INT(3) NOT NULL
+    )";
+
+    if ($conn->query($sql)) {
+        $conn->close();
+        return true;
+    }
+
+    $conn->close();
+
+    return false;
+}
+
+/**
  * Statements which create a database or tables if they don't exist (this is listed in the exception message)
  * @param string $exception Required | The exception thrown in case an error occurs while checking the database.
  * @return bool Returns true/false depending on whether something has been created. True if something has been created.
  */
 function checkToCreateDatabase(string $exception):bool {
+    global $dbname;
+
     $createdSomething = false;
-    if (str_contains($exception, "eeeee")) {//Check to see if error states there is no database
-        $createdSomething = true;
-    } else if (str_contains($exception, "aaaaa")) {//Check to see if error states there is no table
-        $createdSomething = true;
+    if (str_contains($exception, "Unknown database 'yourweather'")) {//Check to see if error states there is no database
+        $result = createDatabase();
+
+        if ($result) $createdSomething = true;
+    } else if (str_contains($exception, "Table 'yourweather.forecast' doesn't exist")) {//Check to see if error states there is no table
+        $result = createForecastTable($dbname);
+
+        if ($result) $createdSomething = true;
     }
 
     return $createdSomething;
@@ -59,7 +110,8 @@ function checkForDatabase() {
         $connection = attemptConnection();
         $connection-> close();
 
-        $pdo = new PDO("$host=$servername;$dbname", $user, $password);
+        $pdo = new PDO("$host=$servername;dbname=$dbname", $user, $password);
+        echo "$host=$servername;$dbname";
 
         $query = $pdo->prepare("DESCRIBE forecast");
         if (!$query->execute()) {
@@ -69,7 +121,7 @@ function checkForDatabase() {
         echo $exception;
         $createdSomething = checkToCreateDatabase($exception);
 
-        if ($createdSomething) checkForDatabase();//Loop if a database/table has been created to make sure everything will be/has been created.
+        if ($createdSomething) header("Refresh: 0");//Loop by refreshing if a database/table has been created to make sure everything will be/has been created.
     }
 
     return null;
