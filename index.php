@@ -22,9 +22,9 @@ if (isset($_POST["submit-city"])) {
             } else {
                 echo "Something went wrong. Did you spell the city name correct?";
             }
-        } else {
-            fetchFromDbUsingCity($cityInput);
         }
+        //Fetch city
+        fetchFromDbUsingCity($cityInput);
     } else {
         $mainErrorField = "Fill in a city!";
     }
