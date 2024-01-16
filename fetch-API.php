@@ -23,8 +23,6 @@ function fetchAPIUsingCurl(string $url):array|object|false {
         return false;
     }
 
-    echo "<br><br>";
-    var_dump($response);
     return json_decode($response);
 }
 
@@ -54,4 +52,4 @@ function fetchWeatherForecast(string $cityName):object|false {
     return fetchAPIUsingCurl("https://api.open-meteo.com/v1/forecast?latitude=$lat&longitude=$lon&hourly=temperature_2m,precipitation_probability");
 }
 
-var_dump(fetchWeatherForecast("Amsterdam"));
+print_r(fetchWeatherForecast("Amsterdam"));
