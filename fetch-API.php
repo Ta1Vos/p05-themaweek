@@ -3,22 +3,28 @@
 /**
  * Fetch an API using cURL.
  * @param string $url Required | The URL of the API you wish to fetch
- * @return object|false returns an object or false if fetch fails.
+ * @return array|object|false returns an object/array or false if fetch fails.
  */
-function fetchAPIUsingCurl(string $url):object|false {
+function fetchAPIUsingCurl(string $url):array|object|false {
     $curl = curl_init();
 
     curl_setopt_array($curl, [
-        CURLOPT_HEADER => $url,
-        CURLOPT_TIMEOUT => 30
+        CURLOPT_URL => $url,
+        CURLOPT_TIMEOUT => 30,
+        CURLOPT_RETURNTRANSFER => true
     ]);
 
-    $response = curl_exec();
-    $error = curl_error();
-
-    if ($error) return false;
+    $response = curl_exec($curl);
+    $error = curl_error($curl);
 
     curl_close($curl);
+
+    if ($error) {
+        return false;
+    }
+
+    echo "<br><br>";
+    var_dump($response);
     return json_decode($response);
 }
 
@@ -27,16 +33,25 @@ function fetchAPIUsingCurl(string $url):object|false {
  * @param string $cityName Required | Name of the city
  * @return object|false returns an object or false if fetch fails.
  */
-function fetchCity(string $cityName):object|false {
-    return fetchAPIUsingCurl("https://geocode.maps.co/search?q=$cityName");
+function fetchCity(string $cityName):array|false {
+    return fetchAPIUsingCurl("https://geocode.maps.co/search?q=$cityName&api_key=65a67213e24dc193338739ahe7da75e");
 }
 
 /**
  * Fetch the weather of a location using latitude and longitude.
- * @param string $lat Required | The latitude of the location
- * @param string $lon Required | The longitude of the location
+ * @param string $cityName Required | Name of the city
  * @return object|false returns an object or false if fetch fails.
  */
-function fetchWeatherForecast(string $lat, string $lon):object|false {
+function fetchWeatherForecast(string $cityName):object|false {
+    $city = fetchCity($cityName);
+    $city = $city[0];
+
+    if (!isset($city->lat) || !isset($city->lon)) return false;
+
+    $lat = $city->lat;
+    $lon = $city->lon;
+
     return fetchAPIUsingCurl("https://api.open-meteo.com/v1/forecast?latitude=$lat&longitude=$lon&hourly=temperature_2m,precipitation_probability");
 }
+
+var_dump(fetchWeatherForecast("Amsterdam"));
