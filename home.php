@@ -1,5 +1,6 @@
 <?php
 global $mainErrorField;
+global $cityInput;
 ?>
 
 <!doctype html>
@@ -13,7 +14,7 @@ global $mainErrorField;
 </head>
 <body>
 <form method="post">
-    <input type="text" name="city-input"><br>
+    <input type="text" name="city-input" value="<?= $cityInput; ?>"><br>
     <input type="submit" name="submit-city" value="Submit city">
 </form>
 <div class="error-field">

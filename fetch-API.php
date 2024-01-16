@@ -51,5 +51,3 @@ function fetchWeatherForecast(string $cityName):object|false {
 
     return fetchAPIUsingCurl("https://api.open-meteo.com/v1/forecast?latitude=$lat&longitude=$lon&hourly=temperature_2m,precipitation_probability");
 }
-
-print_r(fetchWeatherForecast("Amsterdam"));
