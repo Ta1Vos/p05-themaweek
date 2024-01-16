@@ -8,14 +8,14 @@ global $password;
 $pdo = new PDO("$host=$servername;dbname=$dbname", $user, $password);//Link the database
 
 /**
- * Insert information into the selected database.
+ * Insert information into the forecast table.
  * @param string $city Required | The name of the city
  * @param string $time Required | The time of the current forecast
  * @param float $temperature Required | The temperature of current time
  * @param int $precipitationProbability Required | The chance when it's going to rain
  * @return bool returns true/false depending on success of operation. True = success.
  */
-function insertIntoDb(string $city, string $time, float $temperature, int $precipitationProbability):bool {
+function insertIntoForecast(string $city, string $time, float $temperature, int $precipitationProbability):bool {
     try {
         global $pdo;
 
@@ -52,6 +52,18 @@ function checkIfCityPresentInDb(string $city):bool {
     return false;
 }
 
-function fetchFromDbUsingCity(string $city) {
+function fetchFromDbUsingCity(string $city):array|false {
+    try {
+        global $pdo;
 
+        $query = $pdo->prepare("SELECT * FROM forecast WHERE city=:city limit 1");
+        $query->bindParam("city", $city);
+
+        if ($query->execute()) {
+            $result = $query->fetchAll(PDO::FETCH_ASSOC);//Fetch all cols
+            if (count($result) > 0) return $result;//If there are cols, then city is present.
+        }
+    } catch (PDOException $exception) {}
+
+    return false;
 }

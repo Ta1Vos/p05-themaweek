@@ -58,9 +58,10 @@ function createForecastTable(string $dbname):bool {
     $sql = "CREATE TABLE forecast (
         id INT(11) AUTO_INCREMENT PRIMARY KEY,
         city VARCHAR(255) NOT NULL,
-        last_refresh DATETIME NOT NULL,
+        time DATETIME NOT NULL,
         temperature FLOAT(4,1) NOT NULL,
-        precipitation_probability INT(3) NOT NULL
+        precipitation_probability INT(3) NOT NULL,
+        last_refresh DATETIME NOT NULL
     )";
 
     if ($conn->query($sql)) {
