@@ -15,8 +15,13 @@ if (isset($_POST["submit-city"])) {
 
         if (!$isCityPresent) {
             $weatherForecasts = fetchWeatherForecast($cityInput);//Fetch the weather object
-            $forecast = $weatherForecasts->hourly;//Pick the necessary data from object
-            addForecastToDb($cityInput, $forecast);//Add the data to the database
+
+            if ($weatherForecasts) {
+                $forecast = $weatherForecasts->hourly;//Pick the necessary data from object
+                addForecastToDb($cityInput, $forecast);//Add the data to the database
+            } else {
+                echo "Something went wrong. Did you spell the city name correct?";
+            }
         } else {
             fetchFromDbUsingCity($cityInput);
         }

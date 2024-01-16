@@ -42,9 +42,12 @@ function fetchCity(string $cityName):array|false {
  */
 function fetchWeatherForecast(string $cityName):object|false {
     $city = fetchCity($cityName);
+
+    if (count($city) <= 0) return false;//If no city has returned, return
+
     $city = $city[0];
 
-    if (!isset($city->lat) || !isset($city->lon)) return false;
+    if (!isset($city->lat) || !isset($city->lon)) return false;//If latitude/longitude are not present, return
 
     $lat = $city->lat;
     $lon = $city->lon;
