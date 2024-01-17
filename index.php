@@ -22,8 +22,22 @@ if (isset($_POST["submit-city"])) {
             } else {
                 echo "Something went wrong. Did you spell the city name correct?";
             }
-        } else {
-            fetchFromDbUsingCity($cityInput);
+        }
+        //Fetch city
+        $forecast = fetchFromDbUsingCity($cityInput);
+        if ($forecast) {
+            echo "<table>";
+
+            foreach ($forecast as $forecastItem) {
+                echo "<tr><td><b>{$forecastItem["city"]}</b></td>";
+                echo "<td>{$forecastItem["time"]}</td>";
+                echo "<td>{$forecastItem["temperature"]}</td>";
+                echo "<td>{$forecastItem["precipitation_probability"]}</td>";
+                echo "<td>{$forecastItem["last_refresh"]}</td>";
+                echo "</tr>";
+            }
+
+            echo "</table>";
         }
     } else {
         $mainErrorField = "Fill in a city!";

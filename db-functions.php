@@ -56,7 +56,7 @@ function fetchFromDbUsingCity(string $city):array|false {
     try {
         global $pdo;
 
-        $query = $pdo->prepare("SELECT * FROM forecast WHERE city=:city limit 1");
+        $query = $pdo->prepare("SELECT * FROM forecast WHERE city=:city");
         $query->bindParam("city", $city);
 
         if ($query->execute()) {

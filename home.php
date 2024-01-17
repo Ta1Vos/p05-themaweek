@@ -12,6 +12,15 @@ global $cityInput;
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
 </head>
+<style>
+    table, tr, td {
+        border: 1px solid black;
+    }
+
+    td {
+        padding: 5px;
+    }
+</style>
 <body>
 <form method="post">
     <input type="text" name="city-input" value="<?= $cityInput; ?>"><br>
