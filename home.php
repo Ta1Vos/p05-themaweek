@@ -1,6 +1,9 @@
 <?php
 global $mainErrorField;
 global $cityInput;
+global $tableContents;
+
+var_dump($cityInput);
 ?>
 
 <!doctype html>
@@ -52,26 +55,29 @@ global $cityInput;
 </style>
 <body class="text-center">
 <div class="row">
-    <div class="col-12 py-6 bg-primary text-light">
+    <div class="col-12 py-6 bg-primary bg-gradient text-light">
         <h1 class="fs-0">Your Weather - Weather Forecast</h1>
     </div>
-    <div class="col-12 py-7 bg-warning">
+    <div class="col-12 py-7 bg-warning bg-gradient">
         <form method="post">
             <div class="mb-3 row">
                 <div class="col-3"></div>
                 <div class="col-6">
-                    <label for="cityInput" class="form-label bg-secondary rounded-3 px-8 py-2 fs-2 text-light border-bottom border-3">Input City Name</label>
+                    <label for="cityInput" class="form-label  bg-secondary bg-gradient text-light fw-bold rounded-3 px-8 py-2 fs-2 border-bottom border-3">Input City Name</label>
                     <hr>
                     <input type="text" name="city-input" value="<?= $cityInput; ?>"
-                           class="form-control-lg fs-1 bg-info-subtle px-6"
+                           class="form-control-lg fs-2 bg-info-subtle px-6"
                            id="cityInput" placeholder="example: Amsterdam">
                 </div>
                 <div class="col-3"></div>
             </div>
 
-            <input type="submit" name="submit-city" value="Submit city" class="btn btn-primary">
+            <input type="submit" name="submit-city" value="Find your weather" class="btn bg-secondary bg-gradient text-light fw-bold fs-4">
         </form>
     </div>
+    <table>
+        <?= $tableContents ?>
+    </table>
 </div>
 <div class="error-field">
     <?= $mainErrorField; ?>
