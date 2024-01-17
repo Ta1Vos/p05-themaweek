@@ -40,6 +40,11 @@ global $cityInput;
         padding-right: 50px;
     }
 
+    .px-8 {
+        padding-left: 150px;
+        padding-right: 150px;
+    }
+
     .py-7 {
         padding-top: 75px;
         padding-bottom: 75px;
@@ -55,11 +60,11 @@ global $cityInput;
             <div class="mb-3 row">
                 <div class="col-3"></div>
                 <div class="col-6">
-                    <label for="cityInput" class="form-label bg-secondary rounded-3 px-6 py-2 fs-1 text-light">Input City Name</label>
+                    <label for="cityInput" class="form-label bg-secondary rounded-3 px-8 py-2 fs-2 text-light border-bottom border-3">Input City Name</label>
                     <hr>
                     <input type="text" name="city-input" value="<?= $cityInput; ?>"
-                           class="form-control-lg bg-info-subtle"
-                           id="cityInput">
+                           class="form-control-lg fs-1 bg-info-subtle px-6"
+                           id="cityInput" placeholder="example: Amsterdam">
                 </div>
                 <div class="col-3"></div>
             </div>
