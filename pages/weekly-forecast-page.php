@@ -2,6 +2,7 @@
 global $mainErrorField;
 global $cityInput;
 global $hourlyForecasts;
+global $forecastMessage;
 
 ?>
 
@@ -60,9 +61,18 @@ global $hourlyForecasts;
 <div class="row">
     <div class="col-12 py-6 bg-primary bg-gradient text-light">
         <?php if (isset($hourlyForecasts[0]["time"])): ?>
-            <h2 class="mb-4">Today's forecast in <?= $_SESSION["city"]; ?></h2>
+            <h2 class="mb-4"><?= $forecastMessage; ?></h2>
             <div class="row column-gap-4 row-gap-4 d-flex justify-content-center">
                 <?php foreach ($hourlyForecasts as $hourlyForecast): ?>
+                    <?php
+                    if (str_contains($hourlyForecast["time"], '00:00:00')) {
+                        $dayDate = explode(' ', $hourlyForecast["time"]);
+                        $dayDate = $dayDate[0];
+                        echo "</div>";
+                        echo "<h2 class='my-5 bg-secondary py-2'>$dayDate</h2>";
+                        echo "<div class='row column-gap-4 row-gap-4 d-flex justify-content-center'>";
+                    }
+                    ?>
                     <div class="col-1 card bg-blue text-light p-0">
                         <div class="card-body">
                             <div class="card-header">

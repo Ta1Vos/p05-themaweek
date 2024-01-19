@@ -10,6 +10,7 @@ if (isset($_SESSION["city"])) $cityInput = $_SESSION["city"];//If city is presen
 
 $tableContents = "";
 $mainErrorField = "";
+$forecastMessage = null;
 
 if (!isset($_POST["weekly-page"]) || isset($_POST["daily-page"])) {
     if (isset($_POST["submit-city"])) {
@@ -35,9 +36,11 @@ if (!isset($_POST["weekly-page"]) || isset($_POST["daily-page"])) {
         }
     }
 
+    $forecastMessage = "Today's forecast in {$_SESSION["city"]}";
     require "APIs/daily-forecast.php";
     include_once "pages/home.php";
 } else {
+    $forecastMessage = "Weekly forecast in {$_SESSION["city"]}";
     require "APIs/weekly-forecast.php";
     include_once "pages/weekly-forecast-page.php";
 }
