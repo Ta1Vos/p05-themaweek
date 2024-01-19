@@ -1,11 +1,12 @@
 <?php
-include_once "home.php";
 require "database-check.php";
 require "db-functions.php";
 require "fetch-API.php";
 require "functions.php";
 
 $cityInput = null;
+$tableContents = "";
+$mainErrorField = "";
 
 if (isset($_POST["submit-city"])) {
     if (isset($_POST["city-input"])) {
@@ -20,26 +21,24 @@ if (isset($_POST["submit-city"])) {
                 $forecast = $weatherForecasts->hourly;//Pick the necessary data from object
                 addForecastToDb($cityInput, $forecast);//Add the data to the database
             } else {
-                echo "Something went wrong. Did you spell the city name correct?";
+                $mainErrorField = "Something went wrong. Did you spell the city name correct?";
             }
         }
         //Fetch city
         $forecast = fetchFromDbUsingCity($cityInput);
         if ($forecast) {
-            echo "<table>";
-
             foreach ($forecast as $forecastItem) {
-                echo "<tr><td><b>{$forecastItem["city"]}</b></td>";
-                echo "<td>{$forecastItem["time"]}</td>";
-                echo "<td>{$forecastItem["temperature"]}</td>";
-                echo "<td>{$forecastItem["precipitation_probability"]}</td>";
-                echo "<td>{$forecastItem["last_refresh"]}</td>";
-                echo "</tr>";
+                $tableContents .= "<tr><td><b>{$forecastItem["city"]}</b></td>";
+                $tableContents .= "<td>{$forecastItem["time"]}</td>";
+                $tableContents .= "<td>{$forecastItem["temperature"]}</td>";
+                $tableContents .= "<td>{$forecastItem["precipitation_probability"]}</td>";
+                $tableContents .= "<td>{$forecastItem["last_refresh"]}</td>";
+                $tableContents .= "</tr>";
             }
-
-            echo "</table>";
         }
     } else {
         $mainErrorField = "Fill in a city!";
     }
 }
+
+include_once "pages/home.php";
