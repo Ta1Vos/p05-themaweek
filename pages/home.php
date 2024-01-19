@@ -53,6 +53,10 @@ var_dump($cityInput);
         padding-top: 75px;
         padding-bottom: 75px;
     }
+
+    .bg-blue {
+        background-color: #4472c4;
+    }
 </style>
 <body class="text-center">
 <div class="row">
@@ -82,26 +86,29 @@ var_dump($cityInput);
         </div>
     </div>
     <div class="col-12 py-6 bg-primary bg-gradient text-light">
-        <?php
-        if (isset($hourlyForecasts[0]["time"])):
-        foreach ($hourlyForecasts as $hourlyForecast): ?>
-            <div class="card bg-primary">
-                <div class="card-body">
-                    <div class="card-header">
-                        <?= $hourlyForecast["time"]; ?>
+        <?php if (isset($hourlyForecasts[0]["time"])): ?>
+        <h2 class="mb-4">Today's forecast in <?= $_SESSION["city"]; ?></h2>
+            <div class="row column-gap-4 row-gap-4 d-flex justify-content-center">
+                <?php foreach ($hourlyForecasts as $hourlyForecast): ?>
+                    <div class="col-1 card bg-blue text-light p-0">
+                        <div class="card-body">
+                            <div class="card-header">
+                                <?= $hourlyForecast["time"]; ?>
+                            </div>
+                            <div class="card-body">
+                                <p>
+                                    <?= $hourlyForecast["temperature"]; ?> &deg;C
+                                </p>
+                                <p>
+                                    <?= $hourlyForecast["precipitation_probability"]; ?>% rain probability
+                                </p>
+                            </div>
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <p>
-                            <?= $hourlyForecast["temperature"]; ?> &deg;C
-                        </p>
-                        <p>
-                            <?= $hourlyForecast["precipitation_probability"]; ?>% rain
-                        </p>
-                    </div>
-                </div>
+                <?php endforeach; ?>
             </div>
-            <a href="../pages/weekly-forecast-page.php" class="btn btn-secondary"></a>
-        <?php endforeach; else:?>
+            <a href="../pages/weekly-forecast-page.php" class="btn btn-secondary mt-5">Go go weekly forecast</a>
+        <?php else: ?>
             <h2>Something went wrong, try searching another city?</h2>
         <?php endif; ?>
         <table>

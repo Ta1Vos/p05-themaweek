@@ -1,10 +1,13 @@
 <?php
+session_start();
 require "database-check.php";
 require "db-functions.php";
 require "fetch-API.php";
 require "functions.php";
 
 $cityInput = null;
+if (isset($_SESSION["city"])) $cityInput = $_SESSION["city"];//If city is present in session, automatically fill it in
+
 $tableContents = "";
 $mainErrorField = "";
 
@@ -25,20 +28,11 @@ if (isset($_POST["submit-city"])) {
             }
         }
         //Fetch city
-        $forecast = fetchFromDbUsingCity($cityInput);
-        if ($forecast) {
-            foreach ($forecast as $forecastItem) {
-                $tableContents .= "<tr><td><b>{$forecastItem["city"]}</b></td>";
-                $tableContents .= "<td>{$forecastItem["time"]}</td>";
-                $tableContents .= "<td>{$forecastItem["temperature"]}</td>";
-                $tableContents .= "<td>{$forecastItem["precipitation_probability"]}</td>";
-                $tableContents .= "<td>{$forecastItem["last_refresh"]}</td>";
-                $tableContents .= "</tr>";
-            }
-        }
+        $_SESSION["city"] = $cityInput;
     } else {
         $mainErrorField = "Fill in a city!";
     }
 }
 
+require "APIs/daily-forecast.php";
 include_once "pages/home.php";
