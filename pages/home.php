@@ -114,5 +114,6 @@ var_dump($cityInput);
         <?php endif; ?>
     </div>
 </div>
+<a href="refresh-forecasts.php" class="btn btn-secondary">(DEV) Refresh Forecasts</a>
 </body>
 </html>
