@@ -67,3 +67,19 @@ function fetchFromDbUsingCity(string $city):array|false {
 
     return false;
 }
+
+function fetchAllForecast():array|false {
+    try {
+        global $pdo;
+
+        $query = $pdo->prepare("SELECT * FROM forecast");
+        $query->bindParam("city", $city);
+
+        if ($query->execute()) {
+            $result = $query->fetchAll(PDO::FETCH_ASSOC);//Fetch all cols
+            if (count($result) > 0) return $result;//If there are cols, then city is present.
+        }
+    } catch (PDOException $exception) {}
+
+    return false;
+}
