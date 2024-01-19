@@ -8,7 +8,7 @@ require "functions.php";
 $forecasts = fetchAllForecast();
 
 $cities = findDistinctCities();
-$cities = $cities[0];
+var_dump($cities);
 
 if ($cities) {
     $forecast = $forecasts[0];
@@ -27,7 +27,7 @@ if ($cities) {
         if (wipeForecast() && resetAutoIncrementForecast()) {
             //Fetch every city back in
             foreach ($cities as $city) {
-                $success = refreshCityForecast($city);
+                $success = refreshCityForecast($city["city"]);
             }
         }
     }
