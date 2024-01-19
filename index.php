@@ -6,6 +6,7 @@ require "functions.php";
 
 $cityInput = null;
 $tableContents = "";
+$mainErrorField = "";
 
 if (isset($_POST["submit-city"])) {
     if (isset($_POST["city-input"])) {
@@ -20,7 +21,7 @@ if (isset($_POST["submit-city"])) {
                 $forecast = $weatherForecasts->hourly;//Pick the necessary data from object
                 addForecastToDb($cityInput, $forecast);//Add the data to the database
             } else {
-                echo "Something went wrong. Did you spell the city name correct?";
+                $mainErrorField = "Something went wrong. Did you spell the city name correct?";
             }
         }
         //Fetch city
@@ -40,4 +41,4 @@ if (isset($_POST["submit-city"])) {
     }
 }
 
-include_once "home.php";
+include_once "pages/home.php";

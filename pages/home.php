@@ -71,16 +71,17 @@ var_dump($cityInput);
                 </div>
                 <div class="col-3"></div>
             </div>
-
             <input type="submit" name="submit-city" value="Find your weather" class="btn bg-secondary bg-gradient text-light fw-bold fs-4">
         </form>
+        <div class="error-field">
+            <?= $mainErrorField; ?>
+        </div>
     </div>
-    <table>
-        <?= $tableContents ?>
-    </table>
-</div>
-<div class="error-field">
-    <?= $mainErrorField; ?>
+    <div class="col-12 py-6 bg-primary bg-gradient text-light">
+        <table>
+            <?= $tableContents ?>
+        </table>
+    </div>
 </div>
 </body>
 </html>
