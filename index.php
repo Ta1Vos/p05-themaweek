@@ -17,18 +17,8 @@ if (!isset($_POST["weekly-page"]) || isset($_POST["daily-page"])) {
         if (isset($_POST["city-input"])) {
             $cityInput = $_POST["city-input"];
 
-            $isCityPresent = checkIfCityPresentInDb($cityInput);
+            refreshCityForecast($cityInput);
 
-            if (!$isCityPresent) {
-                $weatherForecasts = fetchWeatherForecast($cityInput);//Fetch the weather object
-
-                if ($weatherForecasts) {
-                    $forecast = $weatherForecasts->hourly;//Pick the necessary data from object
-                    addForecastToDb($cityInput, $forecast);//Add the data to the database
-                } else {
-                    $mainErrorField = "Something went wrong. Did you spell the city name correct?";
-                }
-            }
             //Fetch city
             $_SESSION["city"] = $cityInput;
         } else {

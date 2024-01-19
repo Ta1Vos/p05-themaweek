@@ -73,11 +73,53 @@ function fetchAllForecast():array|false {
         global $pdo;
 
         $query = $pdo->prepare("SELECT * FROM forecast");
-        $query->bindParam("city", $city);
 
         if ($query->execute()) {
             $result = $query->fetchAll(PDO::FETCH_ASSOC);//Fetch all cols
             if (count($result) > 0) return $result;//If there are cols, then city is present.
+        }
+    } catch (PDOException $exception) {}
+
+    return false;
+}
+
+function wipeForecast():bool {
+    try {
+        global $pdo;
+
+        $query = $pdo->prepare("DELETE FROM forecast");
+
+        if ($query->execute()) {
+            return true;//Return true if success
+        }
+    } catch (PDOException $exception) {}
+
+    return false;
+}
+
+function findDistinctCities():array|false {
+    try {
+        global $pdo;
+
+        $query = $pdo->prepare("SELECT DISTINCT city FROM forecast");
+
+        if ($query->execute()) {
+            $result = $query->fetchAll(PDO::FETCH_ASSOC);//Fetch all cols
+            if (count($result) > 0) return $result;//If there are cols, then city is present.
+        }
+    } catch (PDOException $exception) {}
+
+    return false;
+}
+
+function resetAutoIncrementForecast():bool {
+    try {
+        global $pdo;
+
+        $query = $pdo->prepare("ALTER TABLE forecast AUTO_INCREMENT = 1");
+
+        if ($query->execute()) {
+            return true;
         }
     } catch (PDOException $exception) {}
 
