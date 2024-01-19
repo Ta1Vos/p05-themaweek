@@ -11,28 +11,33 @@ if (isset($_SESSION["city"])) $cityInput = $_SESSION["city"];//If city is presen
 $tableContents = "";
 $mainErrorField = "";
 
-if (isset($_POST["submit-city"])) {
-    if (isset($_POST["city-input"])) {
-        $cityInput = $_POST["city-input"];
+if (!isset($_POST["weekly-page"]) || isset($_POST["daily-page"])) {
+    if (isset($_POST["submit-city"])) {
+        if (isset($_POST["city-input"])) {
+            $cityInput = $_POST["city-input"];
 
-        $isCityPresent = checkIfCityPresentInDb($cityInput);
+            $isCityPresent = checkIfCityPresentInDb($cityInput);
 
-        if (!$isCityPresent) {
-            $weatherForecasts = fetchWeatherForecast($cityInput);//Fetch the weather object
+            if (!$isCityPresent) {
+                $weatherForecasts = fetchWeatherForecast($cityInput);//Fetch the weather object
 
-            if ($weatherForecasts) {
-                $forecast = $weatherForecasts->hourly;//Pick the necessary data from object
-                addForecastToDb($cityInput, $forecast);//Add the data to the database
-            } else {
-                $mainErrorField = "Something went wrong. Did you spell the city name correct?";
+                if ($weatherForecasts) {
+                    $forecast = $weatherForecasts->hourly;//Pick the necessary data from object
+                    addForecastToDb($cityInput, $forecast);//Add the data to the database
+                } else {
+                    $mainErrorField = "Something went wrong. Did you spell the city name correct?";
+                }
             }
+            //Fetch city
+            $_SESSION["city"] = $cityInput;
+        } else {
+            $mainErrorField = "Fill in a city!";
         }
-        //Fetch city
-        $_SESSION["city"] = $cityInput;
-    } else {
-        $mainErrorField = "Fill in a city!";
     }
-}
 
-require "APIs/daily-forecast.php";
-include_once "pages/home.php";
+    require "APIs/daily-forecast.php";
+    include_once "pages/home.php";
+} else {
+    require "APIs/weekly-forecast.php";
+    include_once "pages/weekly-forecast-page.php";
+}

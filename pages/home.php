@@ -1,7 +1,6 @@
 <?php
 global $mainErrorField;
 global $cityInput;
-global $tableContents;
 global $hourlyForecasts;
 
 var_dump($cityInput);
@@ -87,7 +86,7 @@ var_dump($cityInput);
     </div>
     <div class="col-12 py-6 bg-primary bg-gradient text-light">
         <?php if (isset($hourlyForecasts[0]["time"])): ?>
-        <h2 class="mb-4">Today's forecast in <?= $_SESSION["city"]; ?></h2>
+            <h2 class="mb-4">Today's forecast in <?= $_SESSION["city"]; ?></h2>
             <div class="row column-gap-4 row-gap-4 d-flex justify-content-center">
                 <?php foreach ($hourlyForecasts as $hourlyForecast): ?>
                     <div class="col-1 card bg-blue text-light p-0">
@@ -107,13 +106,12 @@ var_dump($cityInput);
                     </div>
                 <?php endforeach; ?>
             </div>
-            <a href="../pages/weekly-forecast-page.php" class="btn btn-secondary mt-5">Go go weekly forecast</a>
+            <form method="post">
+                <input type="submit" name="weekly-page" class="btn btn-secondary mt-5" value="View weekly forecast">
+            </form>
         <?php else: ?>
             <h2>Something went wrong, try searching another city?</h2>
         <?php endif; ?>
-        <table>
-            <?= $tableContents ?>
-        </table>
     </div>
 </div>
 </body>
