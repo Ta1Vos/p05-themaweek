@@ -2,6 +2,7 @@
 global $mainErrorField;
 global $cityInput;
 global $tableContents;
+global $hourlyForecasts;
 
 var_dump($cityInput);
 ?>
@@ -63,7 +64,9 @@ var_dump($cityInput);
             <div class="mb-3 row">
                 <div class="col-3"></div>
                 <div class="col-6">
-                    <label for="cityInput" class="form-label  bg-secondary bg-gradient text-light fw-bold rounded-3 px-8 py-2 fs-2 border-bottom border-3">Input City Name</label>
+                    <label for="cityInput"
+                           class="form-label  bg-secondary bg-gradient text-light fw-bold rounded-3 px-8 py-2 fs-2 border-bottom border-3">Input
+                        City Name</label>
                     <hr>
                     <input type="text" name="city-input" value="<?= $cityInput; ?>"
                            class="form-control-lg fs-2 bg-info-subtle px-6"
@@ -71,13 +74,36 @@ var_dump($cityInput);
                 </div>
                 <div class="col-3"></div>
             </div>
-            <input type="submit" name="submit-city" value="Find your weather" class="btn bg-secondary bg-gradient text-light fw-bold fs-4">
+            <input type="submit" name="submit-city" value="Find your weather"
+                   class="btn bg-secondary bg-gradient text-light fw-bold fs-4">
         </form>
         <div class="error-field">
             <?= $mainErrorField; ?>
         </div>
     </div>
     <div class="col-12 py-6 bg-primary bg-gradient text-light">
+        <?php
+        if (isset($hourlyForecasts[0]["time"])):
+        foreach ($hourlyForecasts as $hourlyForecast): ?>
+            <div class="card bg-primary">
+                <div class="card-body">
+                    <div class="card-header">
+                        <?= $hourlyForecast["time"]; ?>
+                    </div>
+                    <div class="card-body">
+                        <p>
+                            <?= $hourlyForecast["temperature"]; ?> &deg;C
+                        </p>
+                        <p>
+                            <?= $hourlyForecast["precipitation_probability"]; ?>% rain
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <a href="../pages/weekly-forecast-page.php" class="btn btn-secondary"></a>
+        <?php endforeach; else:?>
+            <h2>Something went wrong, try searching another city?</h2>
+        <?php endif; ?>
         <table>
             <?= $tableContents ?>
         </table>
