@@ -5,7 +5,7 @@ require "db-functions.php";
 require "fetch-API.php";
 require "functions.php";
 
-$cityInput = null;
+$cityInput = "No city has been selected";
 if (isset($_SESSION["city"])) $cityInput = $_SESSION["city"];//If city is present in session, automatically fill it in
 
 $tableContents = "";
@@ -26,7 +26,7 @@ if (!isset($_POST["weekly-page"]) || isset($_POST["daily-page"])) {
         }
     }
 
-    $forecastMessage = "Today's forecast in {$_SESSION["city"]}";
+    $forecastMessage = "Today's forecast in $cityInput";
     require "APIs/daily-forecast.php";
     include_once "pages/home.php";
 } else {

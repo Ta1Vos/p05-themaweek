@@ -1,6 +1,10 @@
 <?php
 $hourlyForecasts = array();
-$forecast = fetchFromDbUsingCity($_SESSION["city"]);
+
+$cityInput = "No city has been selected";
+if (isset($_SESSION["city"])) $cityInput = $_SESSION["city"];//If city is present in session, automatically fill it in
+
+$forecast = fetchFromDbUsingCity($cityInput);
 if ($forecast) {
     $todayDate = $lastRefresh = date("Y-m-d");//Get the current date;
 
