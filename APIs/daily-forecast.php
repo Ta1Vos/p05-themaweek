@@ -1,7 +1,7 @@
 <?php
 $hourlyForecasts = array();
 
-$cityInput = "No city has been selected";
+$cityInput = "";
 if (isset($_SESSION["city"])) $cityInput = $_SESSION["city"];//If city is present in session, automatically fill it in
 
 $forecast = fetchFromDbUsingCity($cityInput);

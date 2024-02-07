@@ -5,7 +5,7 @@ require "db-functions.php";
 require "fetch-API.php";
 require "functions.php";
 
-$cityInput = "No city has been selected";
+$cityInput = "";
 if (isset($_SESSION["city"])) $cityInput = $_SESSION["city"];//If city is present in session, automatically fill it in
 
 $tableContents = "";
